@@ -11,13 +11,13 @@ import { execSync } from 'child_process'
 import { readFileSync } from 'fs'
 import { parseStringPromise } from 'xml2js'
 
-export interface IPluginConfig {
-    skipTask: boolean
-    task: string
-    lintResultPath: string
+export class PluginConfig {
+    skipTask: boolean = false
+    task: string = null
+    lintResultPath: string = 'app/build/reports/lint/lint-result.xml'
 }
 
-export async function androidlint(config: IPluginConfig): Promise<void> {
+export async function androidlint(config: PluginConfig = null): Promise<void> {
     const isGradleExist = execSync('ls gradlew').buffer.byteLength != 0
     if (!isGradleExist) {
         fail('Could not found gradlew.')
@@ -31,7 +31,7 @@ export async function androidlint(config: IPluginConfig): Promise<void> {
     }
 
     // find lint-result.xml
-    const path = config?.lintResultPath ?? 'app/build/reports/lint/lint-result.xml'
+    const path = config?.lintResultPath
     const lintRaw = readFileSync(path, 'utf-8')
     if (lintRaw == null || lintRaw.length == 0) {
         fail('Could not found result file of lint.')
