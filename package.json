@@ -1,6 +1,6 @@
 {
   "name": "dangerjs-android-plugin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DangerJS plugin for Android dev",
   "main": "dist/index.js",
   "types": "types/index.d.ts",
