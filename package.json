@@ -1,6 +1,6 @@
 {
   "name": "dangerjs-android-plugin",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "DangerJS plugin for Android dev",
   "main": "dist/index.js",
   "scripts": {
@@ -9,6 +9,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": "git@github.com:koji-1009/dangerjs-android-plugin.git",
+  "bugs": "https://github.com/koji-1009/dangerjs-android-plugin/issues",
+  "homepage": "https://github.com/koji-1009/dangerjs-android-plugin#readme",
   "author": "Koji Wakamiya <koji.wakamiya@gmail.com>",
   "license": "MIT",
   "dependencies": {
@@ -21,6 +23,7 @@
     "@typescript-eslint/parser": "^4.0.1",
     "danger": "^10.4.0",
     "eslint": "^7.8.1",
+    "semantic-release": "^17.1.1",
     "typescript": "^4.0.2"
   }
 }
