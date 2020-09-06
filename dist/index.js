@@ -9,10 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.androidlint = void 0;
 const child_process_1 = require("child_process");
 const fs_1 = require("fs");
 const xml2js_1 = require("xml2js");
-function android(config) {
+function androidlint(config) {
     var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         const isGradleExist = child_process_1.execSync('ls gradlew').buffer.byteLength != 0;
@@ -23,7 +24,7 @@ function android(config) {
         // run android lint by gradle task
         if ((config === null || config === void 0 ? void 0 : config.skipTask) !== true) {
             const task = (_a = config === null || config === void 0 ? void 0 : config.task) !== null && _a !== void 0 ? _a : 'lint';
-            child_process_1.execSync(`gradlew ${task}`);
+            child_process_1.execSync(`gradlew ${task} --no-deamon`);
         }
         // find lint-result.xml
         const path = (_b = config === null || config === void 0 ? void 0 : config.lintResultPath) !== null && _b !== void 0 ? _b : 'app/build/reports/lint/lint-result.xml';
@@ -68,7 +69,7 @@ function android(config) {
         }
     });
 }
-exports.default = android;
+exports.androidlint = androidlint;
 // https://www.javadoc.io/static/com.android.tools.lint/lint-api/25.3.0/com/android/tools/lint/detector/api/Severity.html
 var Severity;
 (function (Severity) {

@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "description": "DangerJS plugin for Android dev",
   "main": "dist/index.js",
-  "types": "types/index.d.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint src/*.ts",
     "build": "tsc",
