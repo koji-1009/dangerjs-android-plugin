@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -7,20 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { execSync } from 'child_process';
-import { readFileSync } from 'fs';
-import { parseStringPromise } from 'xml2js';
-export class PluginConfig {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.androidlint = exports.PluginConfig = void 0;
+const child_process_1 = require("child_process");
+const fs_1 = require("fs");
+const xml2js_1 = require("xml2js");
+class PluginConfig {
     constructor() {
         this.skipTask = false;
         this.task = null;
         this.lintResultPath = 'app/build/reports/lint/lint-result.xml';
     }
 }
-export function androidlint(config = null) {
+exports.PluginConfig = PluginConfig;
+function androidlint(config = null) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        const isGradleExist = execSync('ls gradlew').buffer.byteLength != 0;
+        const isGradleExist = child_process_1.execSync('ls gradlew').buffer.byteLength != 0;
         if (!isGradleExist) {
             fail('Could not found gradlew.');
             return;
@@ -28,17 +32,17 @@ export function androidlint(config = null) {
         // run android lint by gradle task
         if ((config === null || config === void 0 ? void 0 : config.skipTask) !== true) {
             const task = (_a = config === null || config === void 0 ? void 0 : config.task) !== null && _a !== void 0 ? _a : 'lint';
-            execSync(`gradlew ${task} --no-deamon`);
+            child_process_1.execSync(`gradlew ${task} --no-deamon`);
         }
         // find lint-result.xml
         const path = config === null || config === void 0 ? void 0 : config.lintResultPath;
-        const lintRaw = readFileSync(path, 'utf-8');
+        const lintRaw = fs_1.readFileSync(path, 'utf-8');
         if (lintRaw == null || lintRaw.length == 0) {
             fail('Could not found result file of lint.');
             return;
         }
         // parse xml to json
-        const json = yield parseStringPromise(lintRaw);
+        const json = yield xml2js_1.parseStringPromise(lintRaw);
         const issues = Object.assign({}, json);
         // check file
         const editFiles = danger.git.modified_files.filter(element => !danger.git.deleted_files.includes(element));
@@ -73,6 +77,7 @@ export function androidlint(config = null) {
         }
     });
 }
+exports.androidlint = androidlint;
 // https://www.javadoc.io/static/com.android.tools.lint/lint-api/25.3.0/com/android/tools/lint/detector/api/Severity.html
 var Severity;
 (function (Severity) {

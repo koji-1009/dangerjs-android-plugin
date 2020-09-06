@@ -12,9 +12,9 @@ import { readFileSync } from 'fs'
 import { parseStringPromise } from 'xml2js'
 
 export class PluginConfig {
-    skipTask: boolean = false
+    skipTask = false
     task: string = null
-    lintResultPath: string = 'app/build/reports/lint/lint-result.xml'
+    lintResultPath = 'app/build/reports/lint/lint-result.xml'
 }
 
 export async function androidlint(config: PluginConfig = null): Promise<void> {

@@ -24,7 +24,6 @@
     "@typescript-eslint/parser": "^4.0.1",
     "danger": "^10.4.0",
     "eslint": "^7.8.1",
-    "semantic-release": "^17.1.1",
     "typescript": "^4.0.2"
   }
 }
