@@ -1,0 +1,14 @@
+{
+  "name": "dangerjs-android-plugin",
+  "version": "1.0.0",
+  "description": "DangerJS plugin for Android dev",
+  "main": "index.js",
+  "repository": "git@github.com:koji-1009/dangerjs-android-plugin.git",
+  "author": "Koji Wakamiya <koji.wakamiya@gmail.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.8.1",
+    "typescript": "^4.0.2"
+  }
+}
