@@ -1,6 +1,6 @@
 // Provides dev-time type structures for  `danger` - doesn't affect runtime.
 import { DangerDSLType } from "../node_modules/danger/distribution/dsl/DangerDSL"
-declare var danger: DangerDSLType
+declare let danger: DangerDSLType
 
 // Danger global functions
 declare function fail(message: string, file?: string, line?: number): void
