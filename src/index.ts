@@ -27,7 +27,7 @@ export async function androidlint(config: PluginConfig = null): Promise<void> {
     // run android lint by gradle task
     if (config?.skipTask !== true) {
         const task = config?.task ?? 'lint'
-        execSync(`gradlew ${task} --no-deamon`)
+        execSync(`./gradlew ${task} --no-deamon`)
     }
 
     // find lint-result.xml
