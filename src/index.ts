@@ -18,9 +18,7 @@ export class PluginConfig {
 }
 
 export async function androidlint(config: PluginConfig = null): Promise<void> {
-    console.log(`process.env.PWD ${process.env.PWD}.`)
-    console.log('call pwd')
-    execSync('pwd')
+    execSync('cd ../../../')
 
     const isGradleExist = execSync('ls gradlew').buffer.byteLength != 0
     if (!isGradleExist) {
