@@ -8,7 +8,7 @@ declare function warn(message: string, file?: string, line?: number): void
 declare function message(message: string, file?: string, line?: number): void
 
 import { exec, execSync } from 'child_process'
-import { readFileSync } from 'fs'
+import { existsSync, fstat, readFileSync } from 'fs'
 import { parseStringPromise } from 'xml2js'
 
 export class PluginConfig {
@@ -18,14 +18,9 @@ export class PluginConfig {
 }
 
 export async function androidlint(config: PluginConfig = null): Promise<void> {
-    message(`process.env.PWD ${process.env.PWD}`)
-    exec('pwd', (error, stdout, stderr) => {
-        message(stdout)
-    })
-
-    const isGradleExist = execSync('ls gradlew').buffer.byteLength != 0
-    if (!isGradleExist) {
+    if (!existsSync('gradlew')) {
         fail('Could not found gradlew.')
+        fail(`current path is ${process.env.PWD}`)
         return
     }
 
