@@ -39,9 +39,10 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
     }
 
     // parse xml to json
+    console.log(`${lintRaw}`)
     const json = await parseStringPromise(lintRaw)
-    console.log(`json ${json}`)
-    const issues: Issues = json
+    console.log(`json ${JSON.stringify(json, null, 2)}`)
+    const issues = json as Issues
     console.log(`issues ${issues}`)
 
     // check file

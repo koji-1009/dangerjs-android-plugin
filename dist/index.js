@@ -42,8 +42,9 @@ function androidlint(config = new PluginConfig()) {
             return;
         }
         // parse xml to json
+        console.log(`${lintRaw}`);
         const json = yield xml2js_1.parseStringPromise(lintRaw);
-        console.log(`json ${json}`);
+        console.log(`json ${JSON.stringify(json, null, 2)}`);
         const issues = json;
         console.log(`issues ${issues}`);
         // check file
