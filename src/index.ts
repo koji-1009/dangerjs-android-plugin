@@ -7,8 +7,8 @@ declare function fail(message: string, file?: string, line?: number): void
 declare function warn(message: string, file?: string, line?: number): void
 declare function message(message: string, file?: string, line?: number): void
 
-import { exec, execSync } from 'child_process'
-import { existsSync, fstat, readFileSync } from 'fs'
+import { execSync } from 'child_process'
+import { existsSync, readFileSync } from 'fs'
 import { parseStringPromise } from 'xml2js'
 
 export class PluginConfig {
@@ -18,21 +18,22 @@ export class PluginConfig {
 }
 
 export async function androidlint(config: PluginConfig = null): Promise<void> {
-    if (!existsSync('gradlew')) {
+    const dir = process.env.PWD
+    const gradewPath = `${dir}/gradlew`
+    if (!existsSync(gradewPath)) {
         fail('Could not found gradlew.')
-        fail(`current path is ${process.env.PWD}`)
         return
     }
 
     // run android lint by gradle task
     if (config?.skipTask !== true) {
         const task = config?.task ?? 'lint'
-        execSync(`gradlew ${task} --no-deamon`)
+        execSync(`${gradewPath} ${task} --no-deamon`)
     }
 
     // find lint-result.xml
     const path = config?.lintResultPath
-    const lintRaw = readFileSync(path, 'utf-8')
+    const lintRaw = readFileSync(`${dir}/${path}`, 'utf-8')
     if (lintRaw == null || lintRaw.length == 0) {
         fail('Could not found result file of lint.')
         return
@@ -46,11 +47,10 @@ export async function androidlint(config: PluginConfig = null): Promise<void> {
     const editFiles = danger.git.modified_files.filter(element => !danger.git.deleted_files.includes(element))
     const createFiles = danger.git.created_files
     const files = [...editFiles, ...createFiles]
-    const dir = process.env.PWD
 
     issues.issues.forEach(issue => {
         const location = issue.location
-        const filename = (location.file).replace(dir, '')
+        const filename = (location.file).replace(`${dir}/`, '')
         if (!files.includes(filename)) {
             return
         }
