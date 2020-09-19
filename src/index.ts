@@ -18,7 +18,8 @@ export class PluginConfig {
 }
 
 export async function androidlint(config: PluginConfig = null): Promise<void> {
-    const dir = process.env.PWD
+    const dir = process.cwd()
+    console.log(`dir: ${dir}`)
     const gradewPath = `${dir}/gradlew`
     if (!existsSync(gradewPath)) {
         fail('Could not found gradlew.')
