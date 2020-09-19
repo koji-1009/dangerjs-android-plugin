@@ -24,19 +24,20 @@ exports.PluginConfig = PluginConfig;
 function androidlint(config = null) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
-        const isGradleExist = child_process_1.execSync('ls gradlew').buffer.byteLength != 0;
-        if (!isGradleExist) {
+        const dir = process.cwd();
+        console.log(`dir: ${dir}`);
+        if (!fs_1.existsSync(`${dir}/gradlew`)) {
             fail('Could not found gradlew.');
             return;
         }
         // run android lint by gradle task
         if ((config === null || config === void 0 ? void 0 : config.skipTask) !== true) {
             const task = (_a = config === null || config === void 0 ? void 0 : config.task) !== null && _a !== void 0 ? _a : 'lint';
-            child_process_1.execSync(`gradlew ${task} --no-deamon`);
+            child_process_1.execSync(`${dir}/gradlew ${task} --no-deamon`);
         }
         // find lint-result.xml
         const path = config === null || config === void 0 ? void 0 : config.lintResultPath;
-        const lintRaw = fs_1.readFileSync(path, 'utf-8');
+        const lintRaw = fs_1.readFileSync(`${dir}/${path}`, 'utf-8');
         if (lintRaw == null || lintRaw.length == 0) {
             fail('Could not found result file of lint.');
             return;
@@ -48,11 +49,10 @@ function androidlint(config = null) {
         const editFiles = danger.git.modified_files.filter(element => !danger.git.deleted_files.includes(element));
         const createFiles = danger.git.created_files;
         const files = [...editFiles, ...createFiles];
-        const dir = process.env.PWD;
         issues.issues.forEach(issue => {
             var _a;
             const location = issue.location;
-            const filename = (location.file).replace(dir, '');
+            const filename = (location.file).replace(`${dir}/`, '');
             if (!files.includes(filename)) {
                 return;
             }
