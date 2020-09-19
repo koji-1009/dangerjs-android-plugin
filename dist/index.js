@@ -43,7 +43,9 @@ function androidlint(config = new PluginConfig()) {
         }
         // parse xml to json
         const json = yield xml2js_1.parseStringPromise(lintRaw);
-        const issues = Object.assign({}, json);
+        console.log(`json ${json}`);
+        const issues = json;
+        console.log(`issues ${issues}`);
         // check file
         const editFiles = danger.git.modified_files.filter(element => !danger.git.deleted_files.includes(element));
         const createFiles = danger.git.created_files;

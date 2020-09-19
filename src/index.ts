@@ -40,7 +40,9 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
 
     // parse xml to json
     const json = await parseStringPromise(lintRaw)
-    const issues: Issues = Object.assign({}, json)
+    console.log(`json ${json}`)
+    const issues: Issues = json
+    console.log(`issues ${issues}`)
 
     // check file
     const editFiles = danger.git.modified_files.filter(element => !danger.git.deleted_files.includes(element))
