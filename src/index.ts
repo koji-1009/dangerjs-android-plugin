@@ -17,7 +17,7 @@ export class PluginConfig {
     lintResultPath = 'app/build/reports/lint/lint-result.xml'
 }
 
-export async function androidlint(config: PluginConfig = null): Promise<void> {
+export async function androidlint(config: PluginConfig = new PluginConfig()): Promise<void> {
     const dir = process.cwd()
     if (!existsSync(`${dir}/gradlew`)) {
         fail('Could not found gradlew.')

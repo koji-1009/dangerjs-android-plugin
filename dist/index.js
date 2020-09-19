@@ -21,7 +21,7 @@ class PluginConfig {
     }
 }
 exports.PluginConfig = PluginConfig;
-function androidlint(config = null) {
+function androidlint(config = new PluginConfig()) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const dir = process.cwd();
