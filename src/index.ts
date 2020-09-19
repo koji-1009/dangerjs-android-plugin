@@ -19,7 +19,6 @@ export class PluginConfig {
 
 export async function androidlint(config: PluginConfig = null): Promise<void> {
     const dir = process.cwd()
-    console.log(`dir: ${dir}`)
     if (!existsSync(`${dir}/gradlew`)) {
         fail('Could not found gradlew.')
         return
@@ -28,7 +27,7 @@ export async function androidlint(config: PluginConfig = null): Promise<void> {
     // run android lint by gradle task
     if (config?.skipTask !== true) {
         const task = config?.task ?? 'lint'
-        execSync(`${dir}/gradlew ${task} --no-deamon`)
+        execSync(`${dir}/gradlew ${task}`)
     }
 
     // find lint-result.xml

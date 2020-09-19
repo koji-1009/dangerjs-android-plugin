@@ -25,7 +25,6 @@ function androidlint(config = null) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         const dir = process.cwd();
-        console.log(`dir: ${dir}`);
         if (!fs_1.existsSync(`${dir}/gradlew`)) {
             fail('Could not found gradlew.');
             return;
@@ -33,7 +32,7 @@ function androidlint(config = null) {
         // run android lint by gradle task
         if ((config === null || config === void 0 ? void 0 : config.skipTask) !== true) {
             const task = (_a = config === null || config === void 0 ? void 0 : config.task) !== null && _a !== void 0 ? _a : 'lint';
-            child_process_1.execSync(`${dir}/gradlew ${task} --no-deamon`);
+            child_process_1.execSync(`${dir}/gradlew ${task}`);
         }
         // find lint-result.xml
         const path = config === null || config === void 0 ? void 0 : config.lintResultPath;
