@@ -47,16 +47,16 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
     const createFiles = danger.git.created_files
     const files = [...editFiles, ...createFiles]
 
-    issues.issues.forEach(issue => {
+    for (const issue of issues.issues) {
         const location = issue.location
-        const filename = (location.file).replace(`${dir}/`, '')
+        const filename = location.file.replace(`${dir}/`, '')
         if (!files.includes(filename)) {
-            return
+            continue
         }
 
         const line = parseInt(location['line'] ?? '0')
         send(issue.severity, issue.message, filename, line)
-    })
+    }
 
     function send(severity: string, messageText: string, file: string, line: number) {
         switch (severity) {

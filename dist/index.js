@@ -22,7 +22,7 @@ class PluginConfig {
 }
 exports.PluginConfig = PluginConfig;
 function androidlint(config = new PluginConfig()) {
-    var _a;
+    var _a, _b;
     return __awaiter(this, void 0, void 0, function* () {
         const dir = process.cwd();
         if (!fs_1.existsSync(`${dir}/gradlew`)) {
@@ -48,16 +48,15 @@ function androidlint(config = new PluginConfig()) {
         const editFiles = danger.git.modified_files.filter(element => !danger.git.deleted_files.includes(element));
         const createFiles = danger.git.created_files;
         const files = [...editFiles, ...createFiles];
-        issues.issues.forEach(issue => {
-            var _a;
+        for (const issue of issues.issues) {
             const location = issue.location;
-            const filename = (location.file).replace(`${dir}/`, '');
+            const filename = location.file.replace(`${dir}/`, '');
             if (!files.includes(filename)) {
-                return;
+                continue;
             }
-            const line = parseInt((_a = location['line']) !== null && _a !== void 0 ? _a : '0');
+            const line = parseInt((_b = location['line']) !== null && _b !== void 0 ? _b : '0');
             send(issue.severity, issue.message, filename, line);
-        });
+        }
         function send(severity, messageText, file, line) {
             switch (severity) {
                 case Severity.WARNING:
