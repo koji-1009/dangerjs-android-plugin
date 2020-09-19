@@ -40,7 +40,7 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
 
     // parse xml to json
     console.log(`${lintRaw}`)
-    const json = await parseStringPromise(lintRaw)
+    const json = await parseStringPromise(lintRaw, { mergeAttrs: true })
     console.log(`json ${JSON.stringify(json, null, 2)}`)
     const issues = json as Issues
     console.log(`issues ${issues}`)
@@ -50,7 +50,7 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
     const createFiles = danger.git.created_files
     const files = [...editFiles, ...createFiles]
 
-    for (const issue of issues.issues) {
+    for (const issue of issues.issue) {
         const location = issue.location
         const filename = location.file.replace(`${dir}/`, '')
         if (!files.includes(filename)) {
@@ -80,7 +80,7 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
 }
 
 interface Issues {
-    issues: [Issue]
+    issue: [Issue]
 }
 
 interface Issue {
