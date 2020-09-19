@@ -14,7 +14,7 @@ import { parseStringPromise } from 'xml2js'
 export class PluginConfig {
     skipTask = false
     task: string = null
-    lintResultPath = 'app/build/reports/lint/lint-result.xml'
+    lintResultPath = 'app/build/reports/lint-results.xml'
 }
 
 export async function androidlint(config: PluginConfig = new PluginConfig()): Promise<void> {

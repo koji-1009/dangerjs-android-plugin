@@ -17,7 +17,7 @@ class PluginConfig {
     constructor() {
         this.skipTask = false;
         this.task = null;
-        this.lintResultPath = 'app/build/reports/lint/lint-result.xml';
+        this.lintResultPath = 'app/build/reports/lint-results.xml';
     }
 }
 exports.PluginConfig = PluginConfig;
