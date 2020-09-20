@@ -39,7 +39,7 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
     }
 
     // parse xml to json
-    const json = await parseStringPromise(lintRaw, { explicitArray: false, mergeAttrs: true })
+    const json = await parseStringPromise(lintRaw, { mergeAttrs: true })
     const lintResult = json as LintResult
 
     // check file
@@ -48,14 +48,14 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
     const files = [...editFiles, ...createFiles]
 
     for (const issue of lintResult.issues.issue) {
-        const location = issue.location
-        const filename = location.file.replace(`${dir}/`, '')
+        const location = issue.location[0]
+        const filename = location.file[0].replace(`${dir}/`, '')
         if (!files.includes(filename)) {
             continue
         }
 
-        const line = parseInt(location['line'] ?? '0')
-        send(issue.severity, issue.message, filename, line)
+        const line = parseInt(location[0]['line'] ?? '0')
+        send(issue.severity[0], issue.message[0], filename, line)
     }
 
     function send(severity: string, messageText: string, file: string, line: number) {
@@ -68,7 +68,7 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
                 break
             case Severity.FATAL:
             case Severity.ERROR:
-                fail(messageText, file, line)
+                warn(messageText, file, line)
                 break
             default:
             // nop
@@ -87,26 +87,26 @@ interface Issues {
 }
 
 interface Issue {
-    id: string
-    severity: string
-    message: string
-    category: string
-    priority: string
-    summary: string
-    explanation: string
-    includedVariants: string
-    excludedVariants: string
-    url: string
-    urls: string
-    errorLine1: string
-    errorLine2: string
-    location: Location
+    id: [string]
+    severity: [string]
+    message: [string]
+    category: [string]
+    priority: [string]
+    summary: [string]
+    explanation: [string]
+    includedVariants: [string]
+    excludedVariants: [string]
+    url: [string]
+    urls: [string]
+    errorLine1: [string]
+    errorLine2: [string]
+    location: [Location]
 }
 
 interface Location {
-    file: string
-    line: string
-    column: string
+    file: [string]
+    line: [string]
+    column: [string]
 }
 
 // https://www.javadoc.io/static/com.android.tools.lint/lint-api/25.3.0/com/android/tools/lint/detector/api/Severity.html

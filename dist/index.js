@@ -42,20 +42,20 @@ function androidlint(config = new PluginConfig()) {
             return;
         }
         // parse xml to json
-        const json = yield xml2js_1.parseStringPromise(lintRaw, { explicitArray: false, mergeAttrs: true });
+        const json = yield xml2js_1.parseStringPromise(lintRaw, { mergeAttrs: true });
         const lintResult = json;
         // check file
         const editFiles = danger.git.modified_files.filter(element => !danger.git.deleted_files.includes(element));
         const createFiles = danger.git.created_files;
         const files = [...editFiles, ...createFiles];
         for (const issue of lintResult.issues.issue) {
-            const location = issue.location;
-            const filename = location.file.replace(`${dir}/`, '');
+            const location = issue.location[0];
+            const filename = location.file[0].replace(`${dir}/`, '');
             if (!files.includes(filename)) {
                 continue;
             }
-            const line = parseInt((_b = location['line']) !== null && _b !== void 0 ? _b : '0');
-            send(issue.severity, issue.message, filename, line);
+            const line = parseInt((_b = location[0]['line']) !== null && _b !== void 0 ? _b : '0');
+            send(issue.severity[0], issue.message[0], filename, line);
         }
         function send(severity, messageText, file, line) {
             switch (severity) {
@@ -67,7 +67,7 @@ function androidlint(config = new PluginConfig()) {
                     break;
                 case Severity.FATAL:
                 case Severity.ERROR:
-                    fail(messageText, file, line);
+                    warn(messageText, file, line);
                     break;
                 default:
                 // nop
