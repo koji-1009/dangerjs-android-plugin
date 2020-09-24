@@ -13,12 +13,8 @@ exports.androidlint = exports.PluginConfig = void 0;
 const child_process_1 = require("child_process");
 const fs_1 = require("fs");
 const xml2js_1 = require("xml2js");
+const defaultLintResultPath = 'app/build/reports/lint-results.xml';
 class PluginConfig {
-    constructor() {
-        this.skipTask = false;
-        this.task = null;
-        this.lintResultPath = 'app/build/reports/lint-results.xml';
-    }
 }
 exports.PluginConfig = PluginConfig;
 function androidlint(config = new PluginConfig()) {
@@ -35,7 +31,7 @@ function androidlint(config = new PluginConfig()) {
             child_process_1.execSync(`${dir}/gradlew ${task}`);
         }
         // find lint-result.xml
-        const path = config === null || config === void 0 ? void 0 : config.lintResultPath;
+        const path = (_b = config === null || config === void 0 ? void 0 : config.lintResultPath) !== null && _b !== void 0 ? _b : defaultLintResultPath;
         const lintRaw = fs_1.readFileSync(`${dir}/${path}`, 'utf-8');
         if (lintRaw == null || lintRaw.length == 0) {
             fail('Could not found result file of lint.');
@@ -54,7 +50,7 @@ function androidlint(config = new PluginConfig()) {
             if (!files.includes(filename)) {
                 continue;
             }
-            const line = parseInt((_b = location[0]['line']) !== null && _b !== void 0 ? _b : '0');
+            const line = location[0]['line'] != null ? parseInt(location[0]['line']) : null;
             send(issue.severity[0], issue.message[0], filename, line);
         }
         function send(severity, messageText, file, line) {

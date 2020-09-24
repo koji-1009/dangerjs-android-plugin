@@ -11,10 +11,12 @@ import { execSync } from 'child_process'
 import { existsSync, readFileSync } from 'fs'
 import { parseStringPromise } from 'xml2js'
 
+const defaultLintResultPath = 'app/build/reports/lint-results.xml'
+
 export class PluginConfig {
-    skipTask = false
-    task: string = null
-    lintResultPath = 'app/build/reports/lint-results.xml'
+    skipTask: boolean
+    task: string
+    lintResultPath: string
 }
 
 export async function androidlint(config: PluginConfig = new PluginConfig()): Promise<void> {
@@ -31,7 +33,7 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
     }
 
     // find lint-result.xml
-    const path = config?.lintResultPath
+    const path = config?.lintResultPath ?? defaultLintResultPath
     const lintRaw = readFileSync(`${dir}/${path}`, 'utf-8')
     if (lintRaw == null || lintRaw.length == 0) {
         fail('Could not found result file of lint.')
@@ -54,11 +56,11 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
             continue
         }
 
-        const line = parseInt(location[0]['line'] ?? '0')
+        const line = location[0]['line'] != null ? parseInt(location[0]['line']) : null
         send(issue.severity[0], issue.message[0], filename, line)
     }
 
-    function send(severity: string, messageText: string, file: string, line: number) {
+    function send(severity: string, messageText: string, file?: string, line?: number) {
         switch (severity) {
             case Severity.WARNING:
                 warn(messageText, file, line)
