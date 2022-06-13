@@ -11,7 +11,7 @@ import { execSync } from 'child_process'
 import { existsSync, readFileSync } from 'fs'
 import { parseStringPromise } from 'xml2js'
 
-const defaultLintResultPath = 'app/build/reports/lint-results.xml'
+const defaultLintResultPath = 'app/build/reports/lint-results-debug.xml'
 
 export class PluginConfig {
     skipTask: boolean

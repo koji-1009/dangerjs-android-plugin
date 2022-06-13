@@ -4,7 +4,7 @@ exports.androidlint = exports.PluginConfig = void 0;
 const child_process_1 = require("child_process");
 const fs_1 = require("fs");
 const xml2js_1 = require("xml2js");
-const defaultLintResultPath = 'app/build/reports/lint-results.xml';
+const defaultLintResultPath = 'app/build/reports/lint-results-debug.xml';
 class PluginConfig {
 }
 exports.PluginConfig = PluginConfig;
