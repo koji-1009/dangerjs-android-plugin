@@ -56,7 +56,7 @@ export async function androidlint(config: PluginConfig = new PluginConfig()): Pr
             continue
         }
 
-        const line = location[0]['line'] != null ? parseInt(location[0]['line']) : null
+        const line = location.line[0] != null ? parseInt(location.line[0]) : null
         send(issue.severity[0], issue.message[0], filename, line)
     }
 
